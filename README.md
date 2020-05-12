@@ -1,7 +1,5 @@
-# sorry-we-are-closed-but-still-awesome
+# Creates a simple image explaining why we are going to be out of office
 
-Just run 
-
-`yarn`
-
-`yarn start`
+- `yarn`
+- `yarn start`
+- Use the thing
