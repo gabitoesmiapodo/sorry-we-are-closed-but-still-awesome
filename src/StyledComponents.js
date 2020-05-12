@@ -45,6 +45,13 @@ export const Paragraph = styled.p`
   }
 `;
 
+export const Note = styled.p`
+  margin: 10px 0 0 0;
+  padding: 0;
+  font-size: 12px;
+  color: #999;
+`;
+
 export const Configuration = styled.div`
   margin: 10px 10px 10px 0;
   padding-bottom: 30px;
@@ -69,6 +76,15 @@ export const FormGrid = styled.div`
 
 export const RowWrapper = styled.div`
   margin: 0 0 15px;
+`;
+
+export const FormTitle = styled.h2`
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 10px;
+  padding: 10px 0 0 0;
+  border-top: 1px solid #e9e9e9;
 `;
 
 export const Label = styled.label`
@@ -129,6 +145,7 @@ export const Button = styled.button`
   transition: background-color 0.15s linear;
   background-color: #ee2b1c;
   cursor: pointer;
+  flex-grow: 1;
 
   &:hover {
     background-color: #c92418;
@@ -138,7 +155,7 @@ export const Button = styled.button`
 export const ButtonWrapper = styled.div`
   margin-top: 30px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 
 export const Header = styled.div`
