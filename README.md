@@ -1,4 +1,4 @@
-# Creates a simple image explaining why we are going to be out of office
+**Creates a simple image explaining why we are going to be out of office**
 
 - `yarn`
 - `yarn start`
