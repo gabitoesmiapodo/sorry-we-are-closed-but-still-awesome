@@ -61,7 +61,7 @@ const App = () => {
                 )}
                 <Paragraph>Hello everyone,</Paragraph>
                 <Paragraph>
-                  due to a national holiday
+                  Due to a national holiday
                   {holidayName ? ` (${holidayName})` : ","} our offices in
                   Argentina will remain closed on{" "}
                   <strong>
