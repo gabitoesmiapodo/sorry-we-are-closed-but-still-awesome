@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import "sanitize.css";
+import React, { useState } from 'react'
+import 'sanitize.css'
 import {
   Button,
   ButtonWrapper,
   Configuration,
+  FormGrid,
+  FormTitle,
   GlobalCSS,
   Header,
   Label,
@@ -11,6 +13,7 @@ import {
   LogoAltoros,
   LogoProtofire,
   MessageWrapper,
+  Note,
   Paragraph,
   PrintableArea,
   RowWrapper,
@@ -18,48 +21,43 @@ import {
   TextWrapper,
   Textfield,
   Wrapper,
-  FormTitle,
-  FormGrid,
-  Note,
-} from "./StyledComponents";
-import { printComponent } from "./Utils";
+} from './StyledComponents'
+import { printComponent } from './Utils'
 
 const App = () => {
-  const defaultMonth = "January";
-  const defaultDayNumber = "1st";
-  const defaultDayName = "Optional...";
-  const [holidayName, setHolidayName] = useState("");
-  const [currentLogo, setCurrentLogo] = useState("altoros");
-  const [holidayMonth, setHolidayMonth] = useState(defaultMonth);
-  const [backToWorkMonth, setBackToWorkMonth] = useState(defaultMonth);
-  const [holidayDayName, setHolidayDayName] = useState(defaultDayName);
-  const [backToWorkDayName, setBackToWorkDayName] = useState(defaultDayName);
-  const [holidayDaysNumbers, setHolidayDaysNumbers] = useState(
-    defaultDayNumber
-  );
-  const [backOnDayNumber, setBackOnDayNumber] = useState(defaultDayNumber);
+  const defaultMonth = 'January'
+  const defaultDayNumber = '1st'
+  const defaultDayName = 'Optional...'
+  const [preloadedHeaderImage, setPreloadedHeaderImage] = useState('')
+  const [newHeaderImage, setNewHeaderImage] = useState('')
+  const [holidayName, setHolidayName] = useState('')
+  const [currentLogo, setCurrentLogo] = useState('protofire')
+  const [holidayMonth, setHolidayMonth] = useState(defaultMonth)
+  const [backToWorkMonth, setBackToWorkMonth] = useState(defaultMonth)
+  const [holidayDayName, setHolidayDayName] = useState(defaultDayName)
+  const [backToWorkDayName, setBackToWorkDayName] = useState(defaultDayName)
+  const [holidayDaysNumbers, setHolidayDaysNumbers] = useState(defaultDayNumber)
+  const [backOnDayNumber, setBackOnDayNumber] = useState('2nd')
   const months = [
     defaultMonth,
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const days = [
-    defaultDayName,
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-  ];
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ]
+  const days = [defaultDayName, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+
+  const clearHeaderImage = () => {
+    setNewHeaderImage('')
+    setPreloadedHeaderImage('')
+  }
 
   return (
     <>
@@ -69,42 +67,35 @@ const App = () => {
           <div>
             <PrintableArea id="printableArea">
               <MessageWrapper>
-                <Header />
+                <Header style={newHeaderImage ? { backgroundImage: `url(${newHeaderImage})` } : {}} />
                 <TextWrapper>
-                  {currentLogo === "altoros" ? (
-                    <LogoAltoros />
-                  ) : (
-                    <LogoProtofire />
-                  )}
-                  <Paragraph contentEditable>Hello everyone,</Paragraph>
-                  <Paragraph contentEditable>
+                  {currentLogo === 'altoros' ? <LogoAltoros /> : <LogoProtofire />}
+                  <Paragraph contentEditable suppressContentEditableWarning={true}>
+                    Hello everyone,
+                  </Paragraph>
+                  <Paragraph contentEditable suppressContentEditableWarning={true}>
                     Due to a national holiday
-                    {holidayName ? ` (${holidayName})` : ","} our offices in
-                    Argentina will remain closed on{" "}
+                    {holidayName ? ` (${holidayName})` : ','} our offices in Argentina will remain closed on{' '}
                     <strong>
-                      {holidayDayName.toLowerCase() ===
-                      defaultDayName.toLowerCase()
-                        ? ""
-                        : `${holidayDayName}, `}
+                      {holidayDayName.toLowerCase() === defaultDayName.toLowerCase() ? '' : `${holidayDayName}, `}
                       {holidayMonth} {holidayDaysNumbers}
                     </strong>
                     .
                   </Paragraph>
-                  <Paragraph contentEditable>
-                    We will resume our activities on{" "}
+                  <Paragraph contentEditable suppressContentEditableWarning={true}>
+                    We will resume our activities on{' '}
                     <strong>
-                      {backToWorkDayName.toLowerCase() ===
-                      defaultDayName.toLowerCase()
-                        ? ""
-                        : `${backToWorkDayName}, `}
+                      {backToWorkDayName.toLowerCase() === defaultDayName.toLowerCase() ? '' : `${backToWorkDayName}, `}
                       {backToWorkMonth} {backOnDayNumber}
                     </strong>
                     .
                   </Paragraph>
-                  <Paragraph contentEditable>
+                  <Paragraph contentEditable suppressContentEditableWarning={true}>
                     Let us know if you have any concerns.
                   </Paragraph>
-                  <Paragraph contentEditable>Thanks and regards.</Paragraph>
+                  <Paragraph contentEditable suppressContentEditableWarning={true}>
+                    Thanks and regards.
+                  </Paragraph>
                 </TextWrapper>
               </MessageWrapper>
             </PrintableArea>
@@ -112,13 +103,28 @@ const App = () => {
           <div>
             <Configuration>
               <RowWrapper>
+                <Label>Header</Label>
+                <Textfield
+                  value={preloadedHeaderImage}
+                  onChange={(e) => setPreloadedHeaderImage(e.currentTarget.value)}
+                  placeholder="Image URL..."
+                />
+              </RowWrapper>
+              <RowWrapper>
+                <FormGrid>
+                  <Button onClick={() => clearHeaderImage()}>Clear</Button>
+                  <Button onClick={() => setNewHeaderImage(preloadedHeaderImage)}>Set</Button>
+                </FormGrid>
+              </RowWrapper>
+              <RowWrapper>
                 <Label>Logo</Label>
                 <Select
+                  defaultDayName="protofire"
                   value={currentLogo}
                   onChange={(e) => setCurrentLogo(e.currentTarget.value)}
                 >
-                  <option value="altoros">Altoros</option>
                   <option value="protofire">Protofire</option>
+                  <option value="altoros">Altoros</option>
                 </Select>
               </RowWrapper>
               <FormTitle>Holiday Settings</FormTitle>
@@ -133,39 +139,17 @@ const App = () => {
               <FormGrid>
                 <RowWrapper>
                   <Label>Month</Label>
-                  <Select
-                    value={holidayMonth}
-                    onChange={(e) => setHolidayMonth(e.currentTarget.value)}
-                  >
+                  <Select value={holidayMonth} onChange={(e) => setHolidayMonth(e.currentTarget.value)}>
                     {months.map((item, index) => {
-                      const selected =
-                        item.toLowerCase() === defaultMonth.toLowerCase()
-                          ? "selected"
-                          : "";
-                      return (
-                        <option key={index} selected={selected}>
-                          {item}
-                        </option>
-                      );
+                      return <option key={index}>{item}</option>
                     })}
                   </Select>
                 </RowWrapper>
                 <RowWrapper>
                   <Label>Day</Label>
-                  <Select
-                    value={holidayDayName}
-                    onChange={(e) => setHolidayDayName(e.currentTarget.value)}
-                  >
+                  <Select value={holidayDayName} onChange={(e) => setHolidayDayName(e.currentTarget.value)}>
                     {days.map((item, index) => {
-                      const selected =
-                        item.toLowerCase() === defaultDayName.toLowerCase()
-                          ? "selected"
-                          : "";
-                      return (
-                        <option key={index} selected={selected}>
-                          {item}
-                        </option>
-                      );
+                      return <option key={index}>{item}</option>
                     })}
                   </Select>
                 </RowWrapper>
@@ -182,41 +166,17 @@ const App = () => {
               <FormGrid>
                 <RowWrapper>
                   <Label>Month</Label>
-                  <Select
-                    value={backToWorkMonth}
-                    onChange={(e) => setBackToWorkMonth(e.currentTarget.value)}
-                  >
+                  <Select value={backToWorkMonth} onChange={(e) => setBackToWorkMonth(e.currentTarget.value)}>
                     {months.map((item, index) => {
-                      const selected =
-                        item.toLowerCase() === defaultMonth.toLowerCase()
-                          ? "selected"
-                          : "";
-                      return (
-                        <option key={index} selected={selected}>
-                          {item}
-                        </option>
-                      );
+                      return <option key={index}>{item}</option>
                     })}
                   </Select>
                 </RowWrapper>
                 <RowWrapper>
                   <Label>Day</Label>
-                  <Select
-                    value={backToWorkDayName}
-                    onChange={(e) =>
-                      setBackToWorkDayName(e.currentTarget.value)
-                    }
-                  >
+                  <Select value={backToWorkDayName} onChange={(e) => setBackToWorkDayName(e.currentTarget.value)}>
                     {days.map((item, index) => {
-                      const selected =
-                        item.toLowerCase() === defaultDayName.toLowerCase()
-                          ? "selected"
-                          : "";
-                      return (
-                        <option key={index} selected={selected}>
-                          {item}
-                        </option>
-                      );
+                      return <option key={index}>{item}</option>
                     })}
                   </Select>
                 </RowWrapper>
@@ -233,14 +193,7 @@ const App = () => {
                 <strong>Note:</strong> Click on text to edit it.
               </Note>
               <ButtonWrapper>
-                <Button
-                  onClick={() =>
-                    printComponent(
-                      "printableArea",
-                      `${holidayDaysNumbers} - ${holidayMonth}.png`
-                    )
-                  }
-                >
+                <Button onClick={() => printComponent('printableArea', `${holidayDaysNumbers} - ${holidayMonth}.png`)}>
                   Save PNG File
                 </Button>
               </ButtonWrapper>
@@ -249,7 +202,7 @@ const App = () => {
         </LayoutGrid>
       </Wrapper>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App
