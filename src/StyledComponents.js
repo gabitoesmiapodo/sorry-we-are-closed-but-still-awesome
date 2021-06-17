@@ -4,6 +4,7 @@ import HeaderImage from './header.png'
 
 // const primary = '#320E3B'
 const secondary = '#E56399'
+const secondaryDark = '#b54e79'
 const borderColor = '#ccc'
 const textColor = '#320E3B'
 const borderRadius = '6px'
@@ -178,15 +179,7 @@ export const Button = styled.button`
   transition: background-color 0.15s linear;
 
   &:hover {
-    background-color: #c92418;
-  }
-`
-
-export const ButtonSecondary = styled(Button)`
-  background-color: #5a96bb;
-
-  &:hover {
-    background-color: #457390;
+    background-color: ${secondaryDark};
   }
 `
 
