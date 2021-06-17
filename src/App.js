@@ -10,11 +10,10 @@ import {
   Header,
   Label,
   LayoutGrid,
-  LogoAltoros,
-  LogoProtofire,
   MessageWrapper,
   Note,
   Paragraph,
+  ParagraphBig,
   PrintableArea,
   RowWrapper,
   Select,
@@ -28,10 +27,7 @@ const App = () => {
   const defaultMonth = 'January'
   const defaultDayNumber = '1st'
   const defaultDayName = 'Optional...'
-  const [preloadedHeaderImage, setPreloadedHeaderImage] = useState('')
-  const [newHeaderImage, setNewHeaderImage] = useState('')
   const [holidayName, setHolidayName] = useState('')
-  const [currentLogo, setCurrentLogo] = useState('protofire')
   const [holidayMonth, setHolidayMonth] = useState(defaultMonth)
   const [backToWorkMonth, setBackToWorkMonth] = useState(defaultMonth)
   const [holidayDayName, setHolidayDayName] = useState(defaultDayName)
@@ -54,11 +50,6 @@ const App = () => {
   ]
   const days = [defaultDayName, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 
-  const clearHeaderImage = () => {
-    setNewHeaderImage('')
-    setPreloadedHeaderImage('')
-  }
-
   return (
     <>
       <GlobalCSS />
@@ -67,12 +58,11 @@ const App = () => {
           <div>
             <PrintableArea id="printableArea">
               <MessageWrapper>
-                <Header style={newHeaderImage ? { backgroundImage: `url(${newHeaderImage})` } : {}} />
+                <Header />
                 <TextWrapper>
-                  {currentLogo === 'altoros' ? <LogoAltoros /> : <LogoProtofire />}
-                  <Paragraph contentEditable suppressContentEditableWarning={true}>
+                  <ParagraphBig contentEditable suppressContentEditableWarning={true}>
                     Hello everyone,
-                  </Paragraph>
+                  </ParagraphBig>
                   <Paragraph contentEditable suppressContentEditableWarning={true}>
                     Due to a national holiday
                     {holidayName ? ` (${holidayName})` : ','} our offices in Argentina will remain closed on{' '}
@@ -100,105 +90,74 @@ const App = () => {
               </MessageWrapper>
             </PrintableArea>
           </div>
-          <div>
-            <Configuration>
+          <Configuration>
+            <FormTitle>Holiday Settings</FormTitle>
+            <RowWrapper>
+              <Label>Name</Label>
+              <Textfield
+                onChange={(e) => setHolidayName(e.currentTarget.value)}
+                placeholder="Optional holiday name..."
+                value={holidayName}
+              />
+            </RowWrapper>
+            <FormGrid>
               <RowWrapper>
-                <Label>Header</Label>
-                <Textfield
-                  value={preloadedHeaderImage}
-                  onChange={(e) => setPreloadedHeaderImage(e.currentTarget.value)}
-                  placeholder="Image URL..."
-                />
-              </RowWrapper>
-              <RowWrapper>
-                <FormGrid>
-                  <Button onClick={() => clearHeaderImage()}>Clear</Button>
-                  <Button onClick={() => setNewHeaderImage(preloadedHeaderImage)}>Set</Button>
-                </FormGrid>
-              </RowWrapper>
-              <RowWrapper>
-                <Label>Logo</Label>
-                <Select
-                  defaultDayName="protofire"
-                  value={currentLogo}
-                  onChange={(e) => setCurrentLogo(e.currentTarget.value)}
-                >
-                  <option value="protofire">Protofire</option>
-                  <option value="altoros">Altoros</option>
+                <Label>Month</Label>
+                <Select value={holidayMonth} onChange={(e) => setHolidayMonth(e.currentTarget.value)}>
+                  {months.map((item, index) => {
+                    return <option key={index}>{item}</option>
+                  })}
                 </Select>
               </RowWrapper>
-              <FormTitle>Holiday Settings</FormTitle>
               <RowWrapper>
-                <Label>Name</Label>
-                <Textfield
-                  value={holidayName}
-                  onChange={(e) => setHolidayName(e.currentTarget.value)}
-                  placeholder="Optional holiday name..."
-                />
+                <Label>Day</Label>
+                <Select value={holidayDayName} onChange={(e) => setHolidayDayName(e.currentTarget.value)}>
+                  {days.map((item, index) => {
+                    return <option key={index}>{item}</option>
+                  })}
+                </Select>
               </RowWrapper>
-              <FormGrid>
-                <RowWrapper>
-                  <Label>Month</Label>
-                  <Select value={holidayMonth} onChange={(e) => setHolidayMonth(e.currentTarget.value)}>
-                    {months.map((item, index) => {
-                      return <option key={index}>{item}</option>
-                    })}
-                  </Select>
-                </RowWrapper>
-                <RowWrapper>
-                  <Label>Day</Label>
-                  <Select value={holidayDayName} onChange={(e) => setHolidayDayName(e.currentTarget.value)}>
-                    {days.map((item, index) => {
-                      return <option key={index}>{item}</option>
-                    })}
-                  </Select>
-                </RowWrapper>
-              </FormGrid>
+            </FormGrid>
+            <RowWrapper>
+              <Label>Day(s) Number(s)</Label>
+              <Textfield
+                value={holidayDaysNumbers}
+                onChange={(e) => setHolidayDaysNumbers(e.currentTarget.value)}
+                required
+              />
+            </RowWrapper>
+            <FormTitle>"Back to work" Settings</FormTitle>
+            <FormGrid>
               <RowWrapper>
-                <Label>Day(s) Number(s)</Label>
-                <Textfield
-                  value={holidayDaysNumbers}
-                  onChange={(e) => setHolidayDaysNumbers(e.currentTarget.value)}
-                  required
-                />
+                <Label>Month</Label>
+                <Select value={backToWorkMonth} onChange={(e) => setBackToWorkMonth(e.currentTarget.value)}>
+                  {months.map((item, index) => {
+                    return <option key={index}>{item}</option>
+                  })}
+                </Select>
               </RowWrapper>
-              <FormTitle>"Back to work" Settings</FormTitle>
-              <FormGrid>
-                <RowWrapper>
-                  <Label>Month</Label>
-                  <Select value={backToWorkMonth} onChange={(e) => setBackToWorkMonth(e.currentTarget.value)}>
-                    {months.map((item, index) => {
-                      return <option key={index}>{item}</option>
-                    })}
-                  </Select>
-                </RowWrapper>
-                <RowWrapper>
-                  <Label>Day</Label>
-                  <Select value={backToWorkDayName} onChange={(e) => setBackToWorkDayName(e.currentTarget.value)}>
-                    {days.map((item, index) => {
-                      return <option key={index}>{item}</option>
-                    })}
-                  </Select>
-                </RowWrapper>
-              </FormGrid>
               <RowWrapper>
-                <Label>Day Number</Label>
-                <Textfield
-                  value={backOnDayNumber}
-                  onChange={(e) => setBackOnDayNumber(e.currentTarget.value)}
-                  required
-                />
+                <Label>Day</Label>
+                <Select value={backToWorkDayName} onChange={(e) => setBackToWorkDayName(e.currentTarget.value)}>
+                  {days.map((item, index) => {
+                    return <option key={index}>{item}</option>
+                  })}
+                </Select>
               </RowWrapper>
-              <Note>
-                <strong>Note:</strong> Click on text to edit it.
-              </Note>
-              <ButtonWrapper>
-                <Button onClick={() => printComponent('printableArea', `${holidayDaysNumbers} - ${holidayMonth}.png`)}>
-                  Save PNG File
-                </Button>
-              </ButtonWrapper>
-            </Configuration>
-          </div>
+            </FormGrid>
+            <RowWrapper>
+              <Label>Day Number</Label>
+              <Textfield value={backOnDayNumber} onChange={(e) => setBackOnDayNumber(e.currentTarget.value)} required />
+            </RowWrapper>
+            <Note>
+              <strong>Note:</strong> You can click on text to edit it manually.
+            </Note>
+            <ButtonWrapper>
+              <Button onClick={() => printComponent('printableArea', `${holidayDaysNumbers} - ${holidayMonth}.png`)}>
+                Save PNG File
+              </Button>
+            </ButtonWrapper>
+          </Configuration>
         </LayoutGrid>
       </Wrapper>
     </>
